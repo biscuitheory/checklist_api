@@ -4,7 +4,7 @@ module.exports = {
     await queryInterface.createTable('Tasks', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
