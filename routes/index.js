@@ -8,6 +8,8 @@ const usersRouter = require('./users');
 // const tasksRouter = require('./tasks');
 // const prioritiesRouter = require('./priorities');
 
+const { OK } = require('../helpers/status_codes');
+
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(usersRouter);
@@ -16,13 +18,7 @@ router.use(usersRouter);
 // router.use(prioritiesRouter);
 
 router.get('/', (req, res) => {
-  res.status(200).json({ message: '🚀 Checklist project 🚀' });
-});
-
-router.get('*', (req, res) => {
-  res.status(404).json({
-    error: "This resource doesn't exist :(",
-  });
+  res.status(OK).json({ message: '🚀 Checklist project 🚀' });
 });
 
 module.exports = router;
