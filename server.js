@@ -4,11 +4,10 @@ const morgan = require('morgan');
 
 const server = express();
 
-const router = express.Router();
+const router = require('./routes');
 
 server.use('/api', router);
 
-router.get('/', (req, res) => {
-  res.status(200).json({ message: 'Starting that checklist business' });
-});
+router.use(morgan('dev'));
+
 module.exports = server;
