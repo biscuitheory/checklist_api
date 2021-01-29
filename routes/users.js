@@ -1,12 +1,15 @@
 const express = require('express');
 
 const usersController = require('../controllers/users');
+const { genToken } = require('../utils/jwt.utils');
+
 const { CREATED, OK } = require('../helpers/status_codes');
 const BadRequestError = require('../helpers/errors/bad_request_error'),
   ConflictError = require('../helpers/errors/conflict_error'),
   UnauthorizedError = require('../helpers/errors/unauthorized_error');
 ValidationError = require('../helpers/errors/validation_error');
 const { signUpValidation, signInValidation } = require('../validators');
+const jwtUtils = require('../utils/jwt.utils');
 
 const router = express.Router();
 
@@ -49,6 +52,7 @@ router.post('/signin', async (req, res) => {
 
     if (isIdentified) {
       res.status(OK).json({
+        token: jwtUtils.genToken(userFound),
         user: {
           id: userFound.id,
           firstname: userFound.firstname,
