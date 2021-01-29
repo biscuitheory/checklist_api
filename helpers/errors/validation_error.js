@@ -8,8 +8,6 @@ module.exports = class ValidationError extends Error {
       Error.captureStackTrace(this, ValidationError);
     }
 
-    // const message = 'La validation des entrées a échouée';
-
     this.name = `ValidationError`;
     this.status = BAD_REQUEST;
     this.errors = errors;
