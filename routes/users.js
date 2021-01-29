@@ -10,7 +10,7 @@ const { userValidation } = require('../validators');
 const router = express.Router();
 
 router.post('/signup', async (req, res, next) => {
-  const { firstname, lastname, email } = req.body;
+  const { email } = req.body;
 
   const errors = userValidation(req.body);
   if (errors) throw new ValidationError(errors);
