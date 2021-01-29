@@ -1,5 +1,7 @@
-const userValidation = require('./users');
+const signUpValidation = require('./signup');
+const signInValidation = require('./signin');
 
 module.exports = {
-  userValidation,
+  signUpValidation,
+  signInValidation,
 };

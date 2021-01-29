@@ -1,18 +1,19 @@
 const express = require('express');
 
 const usersController = require('../controllers/users');
-const { CREATED } = require('../helpers/status_codes');
+const { CREATED, OK } = require('../helpers/status_codes');
 const BadRequestError = require('../helpers/errors/bad_request_error'),
   ConflictError = require('../helpers/errors/conflict_error'),
-  ValidationError = require('../helpers/errors/validation_error');
-const { userValidation } = require('../validators');
+  UnauthorizedError = require('../helpers/errors/unauthorized_error');
+ValidationError = require('../helpers/errors/validation_error');
+const { signUpValidation, signInValidation } = require('../validators');
 
 const router = express.Router();
 
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', async (req, res) => {
   const { email } = req.body;
 
-  const errors = userValidation(req.body);
+  const errors = signUpValidation(req.body);
   if (errors) throw new ValidationError(errors);
 
   const userFound = await usersController.checkEmail(email);
@@ -28,6 +29,42 @@ router.post('/signup', async (req, res, next) => {
     throw new ConflictError(
       'Conflict',
       'An user is already registered with this email address'
+    );
+  }
+});
+
+router.post('/signin', async (req, res) => {
+  const { email, password } = req.body;
+
+  const errors = signInValidation(req.body);
+  if (errors) throw new ValidationError(errors);
+
+  const userFound = await usersController.getUserByEmail(email);
+
+  if (userFound) {
+    const isIdentified = await usersController.checkPassword(
+      password,
+      userFound.password
+    );
+
+    if (isIdentified) {
+      res.status(OK).json({
+        user: {
+          id: userFound.id,
+          firstname: userFound.firstname,
+          lastname: userFound.lastname,
+        },
+      });
+    } else {
+      throw new UnauthorizedError(
+        'Unauthorized',
+        "Email & Password doesn't match"
+      );
+    }
+  } else {
+    throw new UnauthorizedError(
+      'Unauthorized',
+      'No account is referenced on ToDoList under this email address'
     );
   }
 });
