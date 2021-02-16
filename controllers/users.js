@@ -39,4 +39,8 @@ module.exports = {
       },
     });
   },
+
+  getIdentifiedUser: (userId) => {
+    return User.findByPk(userId);
+  },
 };

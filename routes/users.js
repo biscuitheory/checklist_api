@@ -1,7 +1,8 @@
 const express = require('express');
 
 const usersController = require('../controllers/users');
-const { genToken } = require('../utils/jwt.utils');
+const { authenticateJWT } = require('../utils/jwt.utils');
+const jwtUtils = require('../utils/jwt.utils');
 
 const { CREATED, OK } = require('../helpers/status_codes');
 const BadRequestError = require('../helpers/errors/bad_request_error'),
@@ -9,7 +10,6 @@ const BadRequestError = require('../helpers/errors/bad_request_error'),
   UnauthorizedError = require('../helpers/errors/unauthorized_error');
 ValidationError = require('../helpers/errors/validation_error');
 const { signUpValidation, signInValidation } = require('../validators');
-const jwtUtils = require('../utils/jwt.utils');
 
 const router = express.Router();
 
@@ -70,6 +70,18 @@ router.post('/signin', async (req, res) => {
       'Unauthorized',
       'No account is referenced on ToDoList under this email address'
     );
+  }
+});
+
+router.get('/user/me', authenticateJWT, async (req, res) => {
+  const identifiedUser = await usersController.getIdentifiedUser(
+    req.user.userId
+  );
+
+  if (identifiedUser) {
+    res.status(OK).json(identifiedUser);
+  } else {
+    throw new nauthorizedError('Unauthorized', 'No user has been identified');
   }
 });
 
