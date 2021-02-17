@@ -25,7 +25,7 @@ module.exports = {
 
       jwt.verify(token, SECRET, (err, user) => {
         if (err) {
-          console.log(err);
+          console.log('g detou', err);
           throw new ForbiddenError('Forbidden', 'The access is not allowed');
         }
 

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.List, {
         foreignKey: {
-          name: 'user_id',
+          name: 'list_id',
         },
       });
     }

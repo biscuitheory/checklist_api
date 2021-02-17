@@ -7,8 +7,8 @@ const jwtUtils = require('../utils/jwt.utils');
 const { CREATED, OK } = require('../helpers/status_codes');
 const BadRequestError = require('../helpers/errors/bad_request_error'),
   ConflictError = require('../helpers/errors/conflict_error'),
-  UnauthorizedError = require('../helpers/errors/unauthorized_error');
-ValidationError = require('../helpers/errors/validation_error');
+  UnauthorizedError = require('../helpers/errors/unauthorized_error'),
+  ValidationError = require('../helpers/errors/validation_error');
 const { signUpValidation, signInValidation } = require('../validators');
 
 const router = express.Router();
@@ -73,15 +73,16 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-router.get('/user/me', authenticateJWT, async (req, res) => {
+router.get('/auth/user', authenticateJWT, async (req, res) => {
   const identifiedUser = await usersController.getIdentifiedUser(
     req.user.userId
   );
+  console.log('happy', req.user.userId);
 
   if (identifiedUser) {
     res.status(OK).json(identifiedUser);
   } else {
-    throw new nauthorizedError('Unauthorized', 'No user has been identified');
+    throw new UnauthorizedError('Unauthorized', 'No user has been identified');
   }
 });
 

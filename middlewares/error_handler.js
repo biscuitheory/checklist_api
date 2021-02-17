@@ -5,6 +5,7 @@ module.exports = (error, req, res, next) => {
   // if (status == 500) {
   //   description = 'Serveur cassé. Revenez plus tard.';
   // }
+  console.log('spice', error);
 
   if (error.name === 'ValidationError') {
     res.status(status).json({
