@@ -37,9 +37,6 @@ router.post('/lists', authMid.authenticateJWT, async (req, res) => {
 });
 
 router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
-  const { id, name, user_id } = req.body;
-
-  console.log('tatata', req.body);
   const errors = listValidation(req.body);
   if (errors) throw new ValidationError(errors);
 
@@ -55,6 +52,24 @@ router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
   return res.status(CREATED).json({
     id: listUpdated.id,
     name: listUpdated.name,
+  });
+});
+
+router.delete('/lists', authMid.authenticateJWT, async (req, res) => {
+  const { id } = req.body;
+
+  // const listFound = await listsController.getListById(id);
+  // console.log('whats truth', listFound);
+  // if (!listFound) {
+  //   throw new NotFoundError(
+  //     'Not Found',
+  //     'The requested ressource does not exist'
+  //   );
+  // }
+
+  await listsController.deleteList(id);
+  return res.status(OK).json({
+    message: 'The list has been successfully deleted',
   });
 });
 
