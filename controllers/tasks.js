@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
 const db = require('../models');
-const list = require('../validators/list');
 
 const { Task, List } = db;
 
@@ -18,20 +17,38 @@ module.exports = {
   },
   getTasks: () => {
     return Task.findAll({
-      attributes: ['id', 'name', 'description'],
+      attributes: ['id', 'name', 'description', 'priority_id', 'list_id'],
     });
   },
   getTaskById: (id) => {
     return Task.findByPk(id);
   },
-  getTasksList: () => {
+  getTasksByListId: (list_id) => {
+    console.log('banana', list_id);
     return Task.findAll({
+      where: {
+        list_id: list_id,
+      },
+    });
+  },
+  // getListsTasks: (list_id) => {
+  //   console.log('banana', list_id);
+  //   return List.findByPk(list_id, {
+  //     include: [
+  //       {
+  //         model: Task,
+  //         attributes: ['id', 'name', 'description', 'list_id', 'priority_id'],
+  //       },
+  //     ],
+  //   });
+  // },
+  getListsTasks: () => {
+    // console.log('banana', data);
+    return List.findAll({
       include: [
         {
-          model: List,
-          through: {
-            attributes: ['list_id'],
-          },
+          model: Task,
+          attributes: ['id', 'name', 'description', 'list_id', 'priority_id'],
         },
       ],
     });
