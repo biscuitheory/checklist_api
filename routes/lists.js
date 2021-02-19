@@ -31,16 +31,18 @@ router.post('/lists', authMid.authenticateJWT, async (req, res) => {
   const newList = await listsController.addList(req.body);
 
   return res.status(CREATED).json({
+    user_id: newList.user_id,
     id: newList.id,
     name: newList.name,
   });
 });
 
 router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
+  const { id } = req.body;
   const errors = listValidation(req.body);
   if (errors) throw new ValidationError(errors);
 
-  const listUpdated = await listsController.updateList(req.body);
+  const listUpdated = await listsController.updateList(req.body, id);
 
   if (!listUpdated) {
     throw new NotFoundError(
@@ -50,6 +52,7 @@ router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
   }
 
   return res.status(CREATED).json({
+    user_id: listUpdated.user_id,
     id: listUpdated.id,
     name: listUpdated.name,
   });
@@ -58,14 +61,14 @@ router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
 router.delete('/lists', authMid.authenticateJWT, async (req, res) => {
   const { id } = req.body;
 
-  // const listFound = await listsController.getListById(id);
-  // console.log('whats truth', listFound);
-  // if (!listFound) {
-  //   throw new NotFoundError(
-  //     'Not Found',
-  //     'The requested ressource does not exist'
-  //   );
-  // }
+  const listFound = await listsController.getListById(id);
+
+  if (!listFound) {
+    throw new NotFoundError(
+      'Not Found',
+      'The requested ressource does not exist'
+    );
+  }
 
   await listsController.deleteList(id);
   return res.status(OK).json({

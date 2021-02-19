@@ -1,15 +1,14 @@
 const { v4: uuidv4 } = require('uuid');
 const db = require('../models');
 
-const NotFoundError = require('../helpers/errors/validation_error');
-
 const { List } = db;
 
 module.exports = {
   addList: (data) => {
-    const { name } = data;
+    const { name, user_id } = data;
 
     return List.create({
+      user_id,
       id: uuidv4(),
       name,
     });
@@ -20,11 +19,9 @@ module.exports = {
     });
   },
   getListById: (id) => {
-    console.log('spicegals', id);
     return List.findByPk(id);
   },
-  updateList: async (data) => {
-    const { id } = data;
+  updateList: async (data, id) => {
     const listFound = await List.findByPk(id);
     if (!listFound) {
       return listFound;
@@ -33,13 +30,13 @@ module.exports = {
     return listFound.update(data);
   },
   deleteList: async (id) => {
-    const listFound = await List.findByPk(id);
-    if (!listFound) {
-      throw new NotFoundError(
-        'Not Found',
-        'The requested ressource does not exist'
-      );
-    }
+    // const listFound = await List.findByPk(id);
+    // if (!listFound) {
+    //   throw new NotFoundError(
+    //     'Not Found',
+    //     'The requested ressource does not exist'
+    //   );
+    // }
     return List.destroy({
       where: {
         id: id,

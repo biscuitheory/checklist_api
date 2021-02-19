@@ -14,6 +14,12 @@ module.exports = {
       description: {
         type: Sequelize.STRING,
       },
+      list_id: {
+        type: Sequelize.UUID,
+      },
+      priority_id: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
