@@ -11,11 +11,29 @@ const { listValidation } = require('../validators');
 
 const router = express.Router();
 
+// GET ONLY LISTS OF AN USER
 router.get('/lists', authMid.authenticateJWT, async (req, res) => {
   const listsFound = await listsController.getLists();
 
   if (listsFound) {
     res.status(OK).json(listsFound);
+  } else {
+    throw new UnauthorizedError(
+      'Unauthorized',
+      'You do not have the rights to check these ressources'
+    );
+  }
+});
+
+// GET ALL THE LISTS + CORRESPONDING TASKS OF AN USER
+router.post('/liststasks', authMid.authenticateJWT, async (req, res) => {
+  const { user_id } = req.body;
+  // console.log('this is the body', req.body);
+
+  const listTasksFound = await listsController.getListsTasks(user_id);
+
+  if (listTasksFound) {
+    res.status(OK).json(listTasksFound);
   } else {
     throw new UnauthorizedError(
       'Unauthorized',

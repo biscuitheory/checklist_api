@@ -12,6 +12,7 @@ const { taskValidation } = require('../validators');
 
 const router = express.Router();
 
+// GET ONLY TASKS FROM AN USER
 router.get('/tasks', authMid.authenticateJWT, async (req, res) => {
   const tasksFound = await tasksController.getTasks();
 
@@ -25,44 +26,7 @@ router.get('/tasks', authMid.authenticateJWT, async (req, res) => {
   }
 });
 
-router.get('/listasks', authMid.authenticateJWT, async (req, res) => {
-  // const { list_id } = req.body;
-  // console.log('this is the body', req.body);
-
-  // const errors = taskValidation(req.body);
-  // if (errors) throw new ValidationError(errors);
-
-  const listTasksFound = await tasksController.getListsTasks();
-
-  if (listTasksFound) {
-    res.status(OK).json(listTasksFound);
-  } else {
-    throw new UnauthorizedError(
-      'Unauthorized',
-      'You do not have the rights to check these ressources'
-    );
-  }
-});
-
-// router.post('/listasks', authMid.authenticateJWT, async (req, res) => {
-//   const { list_id } = req.body;
-//   console.log('this is the body', req.body);
-
-//   // const errors = taskValidation(req.body);
-//   // if (errors) throw new ValidationError(errors);
-
-//   const listTasksFound = await tasksController.getListsTasks(list_id);
-
-//   if (listTasksFound) {
-//     res.status(OK).json(listTasksFound);
-//   } else {
-//     throw new UnauthorizedError(
-//       'Unauthorized',
-//       'You do not have the rights to check these ressources'
-//     );
-//   }
-// });
-
+// POST TASKS FROM AN USER
 router.post('/tasks', authMid.authenticateJWT, async (req, res) => {
   console.log('le body weh', req.body);
 

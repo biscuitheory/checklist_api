@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const db = require('../models');
 
-const { Task, List } = db;
+const { Task } = db;
 
 module.exports = {
   addTask: (data) => {
@@ -29,28 +29,6 @@ module.exports = {
       where: {
         list_id: list_id,
       },
-    });
-  },
-  // getListsTasks: (list_id) => {
-  //   console.log('banana', list_id);
-  //   return List.findByPk(list_id, {
-  //     include: [
-  //       {
-  //         model: Task,
-  //         attributes: ['id', 'name', 'description', 'list_id', 'priority_id'],
-  //       },
-  //     ],
-  //   });
-  // },
-  getListsTasks: () => {
-    // console.log('banana', data);
-    return List.findAll({
-      include: [
-        {
-          model: Task,
-          attributes: ['id', 'name', 'description', 'list_id', 'priority_id'],
-        },
-      ],
     });
   },
   updateTask: async (data) => {

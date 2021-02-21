@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const db = require('../models');
 
-const { List } = db;
+const { List, Task } = db;
 
 module.exports = {
   addList: (data) => {
@@ -20,6 +20,29 @@ module.exports = {
   },
   getListById: (id) => {
     return List.findByPk(id);
+  },
+  // getListsTasks: () => {
+  //   return List.findAll({
+  //     include: [
+  //       {
+  //         model: Task,
+  //         attributes: ['id', 'name', 'description', 'list_id', 'priority_id'],
+  //       },
+  //     ],
+  //   });
+  // },
+  getListsTasks: (user_id) => {
+    return List.findAll({
+      where: {
+        user_id: user_id,
+      },
+      include: [
+        {
+          model: Task,
+          attributes: ['id', 'name', 'description', 'list_id', 'priority_id'],
+        },
+      ],
+    });
   },
   updateList: async (data, id) => {
     const listFound = await List.findByPk(id);
