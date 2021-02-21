@@ -5,7 +5,7 @@ const { Task } = db;
 
 module.exports = {
   addTask: (data) => {
-    const { name, description, priority_id, list_id } = data;
+    const { name, description, priority_id, list_id, user_id } = data;
 
     return Task.create({
       id: uuidv4(),
@@ -13,6 +13,7 @@ module.exports = {
       description,
       priority_id,
       list_id,
+      // user_id,
     });
   },
   getTasks: () => {

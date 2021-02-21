@@ -43,6 +43,7 @@ router.post('/tasks', authMid.authenticateJWT, async (req, res) => {
     description: newTask.description,
     list_id: newTask.list_id,
     priority_id: taskPriority.name,
+    // user_id: newTask.user_id,
   });
 });
 
