@@ -11,8 +11,8 @@ module.exports = {
       id: uuidv4(),
       name,
       description,
-      priority_id,
       list_id,
+      priority_id,
       // user_id,
     });
   },
@@ -34,6 +34,7 @@ module.exports = {
   },
   updateTask: async (data) => {
     const { id } = data;
+    console.log('idddd', id);
     const taskFound = await Task.findByPk(id);
     if (!taskFound) {
       return taskFound;

@@ -25,6 +25,21 @@ router.get('/lists', authMid.authenticateJWT, async (req, res) => {
   }
 });
 
+// GET ONLY LISTS OF AN USER
+router.post('/onlylists', authMid.authenticateJWT, async (req, res) => {
+  const { user_id } = req.body;
+  const listsFound = await listsController.getLists(user_id);
+
+  if (listsFound) {
+    res.status(OK).json(listsFound);
+  } else {
+    throw new UnauthorizedError(
+      'Unauthorized',
+      'You do not have the rights to check these ressources'
+    );
+  }
+});
+
 // GET ALL THE LISTS + CORRESPONDING TASKS OF AN USER
 router.post('/liststasks', authMid.authenticateJWT, async (req, res) => {
   const { user_id } = req.body;
@@ -49,18 +64,19 @@ router.post('/lists', authMid.authenticateJWT, async (req, res) => {
   const newList = await listsController.addList(req.body);
 
   return res.status(CREATED).json({
-    user_id: newList.user_id,
     id: newList.id,
+    user_id: newList.user_id,
     name: newList.name,
+    createdAt: newList.createdAt,
+    updatedAt: newList.updatedAt,
   });
 });
 
 router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
-  const { id } = req.body;
   const errors = listValidation(req.body);
   if (errors) throw new ValidationError(errors);
 
-  const listUpdated = await listsController.updateList(req.body, id);
+  const listUpdated = await listsController.updateList(req.body);
 
   if (!listUpdated) {
     throw new NotFoundError(
@@ -78,6 +94,7 @@ router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
 
 router.delete('/lists', authMid.authenticateJWT, async (req, res) => {
   const { id } = req.body;
+  console.log('body delete', req.body);
 
   const listFound = await listsController.getListById(id);
 

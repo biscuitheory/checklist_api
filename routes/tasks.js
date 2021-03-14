@@ -48,6 +48,7 @@ router.post('/tasks', authMid.authenticateJWT, async (req, res) => {
 });
 
 router.patch('/tasks', authMid.authenticateJWT, async (req, res) => {
+  console.log('patch body', req.body);
   const errors = taskValidation(req.body);
   if (errors) throw new ValidationError(errors);
 

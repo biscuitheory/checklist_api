@@ -11,7 +11,6 @@ module.exports = {
     return jwt.sign(
       {
         userId: userData.id,
-        userAdmin: userData.admin,
       },
       SECRET
     );
@@ -19,6 +18,8 @@ module.exports = {
 
   authenticateJWT: (req, res, next) => {
     const authHeader = req.headers.authorization;
+
+    console.log('hebe', authHeader);
 
     if (authHeader) {
       const token = authHeader.split(' ')[1];

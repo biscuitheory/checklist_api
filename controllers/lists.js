@@ -13,9 +13,12 @@ module.exports = {
       name,
     });
   },
-  getLists: () => {
+  getLists: (user_id) => {
     return List.findAll({
-      attributes: ['id', 'name'],
+      // attributes: ['id', 'name', 'user_id'],
+      where: {
+        user_id: user_id,
+      },
     });
   },
   getListById: (id) => {
@@ -44,8 +47,11 @@ module.exports = {
       ],
     });
   },
-  updateList: async (data, id) => {
-    const listFound = await List.findByPk(id);
+  updateList: async (data) => {
+    console.log('atata', data);
+    const { list_id } = data;
+
+    const listFound = await List.findByPk(list_id);
     if (!listFound) {
       return listFound;
     }
