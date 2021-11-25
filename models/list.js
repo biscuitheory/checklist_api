@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       user_id: DataTypes.UUID,
       name: DataTypes.STRING,
+      // rank: DataTypes.INTEGER,
     },
     {
       sequelize,

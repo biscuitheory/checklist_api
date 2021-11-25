@@ -28,8 +28,6 @@ router.get('/tasks', authMid.authenticateJWT, async (req, res) => {
 
 // POST TASKS FROM AN USER
 router.post('/tasks', authMid.authenticateJWT, async (req, res) => {
-  console.log('le body weh', req.body);
-
   const { priority_id } = req.body;
   const errors = taskValidation(req.body);
   if (errors) throw new ValidationError(errors);
@@ -43,7 +41,7 @@ router.post('/tasks', authMid.authenticateJWT, async (req, res) => {
     description: newTask.description,
     list_id: newTask.list_id,
     priority_id: taskPriority.name,
-    // user_id: newTask.user_id,
+    // rank: newTask.rank,
   });
 });
 
@@ -70,6 +68,7 @@ router.patch('/tasks', authMid.authenticateJWT, async (req, res) => {
     description: taskUpdated.description,
     list_id: taskUpdated.list_id,
     priority_id: taskPriority.name,
+    // rank: taskUpdated.rank,
   });
 });
 

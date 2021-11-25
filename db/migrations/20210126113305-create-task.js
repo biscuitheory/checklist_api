@@ -9,17 +9,25 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       description: {
+        allowNull: true,
         type: Sequelize.STRING,
       },
       list_id: {
+        allowNull: false,
         type: Sequelize.UUID,
       },
       priority_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
+      // rank: {
+      //   allowNull: false,
+      //   type: Sequelize.INTEGER,
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -30,7 +38,7 @@ module.exports = {
       },
     });
   },
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.dropTable('Tasks');
   },
 };

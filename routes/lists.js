@@ -67,12 +67,14 @@ router.post('/lists', authMid.authenticateJWT, async (req, res) => {
     id: newList.id,
     user_id: newList.user_id,
     name: newList.name,
+    // rank: newList.rank,
     createdAt: newList.createdAt,
     updatedAt: newList.updatedAt,
   });
 });
 
 router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
+  // console.log('le body de la sorted list', req.body);
   const errors = listValidation(req.body);
   if (errors) throw new ValidationError(errors);
 
@@ -89,6 +91,7 @@ router.patch('/lists', authMid.authenticateJWT, async (req, res) => {
     user_id: listUpdated.user_id,
     id: listUpdated.id,
     name: listUpdated.name,
+    // rank: listUpdated.rank,
   });
 });
 

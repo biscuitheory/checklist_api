@@ -5,7 +5,8 @@ const { Task } = db;
 
 module.exports = {
   addTask: (data) => {
-    const { name, description, priority_id, list_id, user_id } = data;
+    const { name, description, priority_id, list_id } = data;
+    // const { name, description, priority_id, list_id, rank } = data;
 
     return Task.create({
       id: uuidv4(),
@@ -13,12 +14,19 @@ module.exports = {
       description,
       list_id,
       priority_id,
-      // user_id,
+      // rank,
     });
   },
   getTasks: () => {
     return Task.findAll({
-      attributes: ['id', 'name', 'description', 'priority_id', 'list_id'],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'priority_id',
+        'list_id',
+        // 'rank',
+      ],
     });
   },
   getTaskById: (id) => {
@@ -34,7 +42,7 @@ module.exports = {
   },
   updateTask: async (data) => {
     const { id } = data;
-    console.log('idddd', id);
+    // console.log('update task id', id);
     const taskFound = await Task.findByPk(id);
     if (!taskFound) {
       return taskFound;

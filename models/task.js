@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.STRING,
       list_id: DataTypes.UUID,
       priority_id: DataTypes.INTEGER,
+      // rank: DataTypes.INTEGER,
     },
     {
       sequelize,

@@ -6,11 +6,13 @@ const { List, Task } = db;
 module.exports = {
   addList: (data) => {
     const { name, user_id } = data;
+    // const { name, user_id, rank } = data;
 
     return List.create({
       user_id,
       id: uuidv4(),
       name,
+      // rank,
     });
   },
   getLists: (user_id) => {
@@ -42,7 +44,14 @@ module.exports = {
       include: [
         {
           model: Task,
-          attributes: ['id', 'name', 'description', 'list_id', 'priority_id'],
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'list_id',
+            'priority_id',
+            // 'rank',
+          ],
         },
       ],
     });
