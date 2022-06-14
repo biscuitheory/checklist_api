@@ -8,7 +8,7 @@ const listsRouter = require('./lists');
 const tasksRouter = require('./tasks');
 // const prioritiesRouter = require('./priorities');
 
-const { OK } = require('../helpers/status_codes');
+const { OK, NOT_FOUND } = require('../helpers/status_codes');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -19,6 +19,10 @@ router.use(tasksRouter);
 
 router.get('/', (req, res) => {
   res.status(OK).json({ message: '🚀 Checklist project 🚀' });
+});
+
+router.get('*', (req, res) => {
+  res.status(NOT_FOUND).json();
 });
 
 module.exports = router;

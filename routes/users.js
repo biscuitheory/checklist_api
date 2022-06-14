@@ -5,8 +5,7 @@ const { authenticateJWT } = require('../utils/jwt.utils');
 const jwtUtils = require('../utils/jwt.utils');
 
 const { CREATED, OK } = require('../helpers/status_codes');
-const BadRequestError = require('../helpers/errors/bad_request_error'),
-  ConflictError = require('../helpers/errors/conflict_error'),
+const ConflictError = require('../helpers/errors/conflict_error'),
   UnauthorizedError = require('../helpers/errors/unauthorized_error'),
   ValidationError = require('../helpers/errors/validation_error');
 const { signUpValidation, signInValidation } = require('../validators');
